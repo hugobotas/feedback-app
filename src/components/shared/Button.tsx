@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps {
   isDisabled?: boolean;

@@ -1,29 +1,40 @@
 import Card from './shared/Card';
-import { ChangeEvent, useState } from 'react';
 import Button from './shared/Button';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+import React from 'react';
+
+interface FormValuesType {
+  review: string;
+}
 
 function FeedbackForm() {
-  const [text, setText] = useState('');
-
-  function handleTextChange(e: ChangeEvent<HTMLInputElement>) {
-    setText(e.target.value);
-  }
-
+  const initialValues: FormValuesType = { review: '' };
   return (
     <Card>
-      <form>
-        <h2>How would you rate your service with us?</h2>
-        {/* @TODO - rating select component */}
-        <div className='input-group'>
-          <input
-            onChange={handleTextChange}
-            type='text'
-            placeholder='Write a review'
-            value={text}
-          />
-          <Button type='submit'>Send</Button>
-        </div>
-      </form>
+      <Formik
+        validateOnMount={true}
+        initialValues={initialValues}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2));
+        }}
+        validationSchema={Yup.object({
+          review: Yup.string().min(10, 'Must be at least 10 characters').required('Required'),
+        })}
+      >
+        {(formik) => (
+          <Form>
+            <h2>How would you rate your service with us?</h2>
+            {/* @TODO - rating select component */}
+            <div className='input-group'>
+              <Field name='review' type='text' placeholder='Please write a review' />
+              <Button type='submit' isDisabled={!!formik.errors.review}>
+                Send
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </Card>
   );
 }
