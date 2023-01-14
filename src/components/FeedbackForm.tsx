@@ -1,7 +1,7 @@
 import Card from './shared/Card';
 import Button from './shared/Button';
 import * as Yup from 'yup';
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 
 interface FormValuesType {
@@ -12,6 +12,7 @@ function FeedbackForm() {
   const initialValues: FormValuesType = { review: '' };
   return (
     <Card>
+      <h2>How would you rate your service with us?</h2>
       <Formik
         validateOnMount={true}
         initialValues={initialValues}
@@ -19,12 +20,11 @@ function FeedbackForm() {
           alert(JSON.stringify(values, null, 2));
         }}
         validationSchema={Yup.object({
-          review: Yup.string().min(10, 'Must be at least 10 characters').required('Required'),
+          review: Yup.string().min(10, 'Text must be at least 10 characters').required('Required'),
         })}
       >
         {(formik) => (
           <Form>
-            <h2>How would you rate your service with us?</h2>
             {/* @TODO - rating select component */}
             <div className='input-group'>
               <Field name='review' type='text' placeholder='Write a review' />
@@ -32,6 +32,7 @@ function FeedbackForm() {
                 Send
               </Button>
             </div>
+            <ErrorMessage name='review' className='message' component='div' />
           </Form>
         )}
       </Formik>
