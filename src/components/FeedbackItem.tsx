@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/all';
 
 interface FeedbackItemProps {
   item: FeedbackItemType;
-  handleDelete: (arg0: number) => void;
+  handleDelete: (arg0: string) => void;
 }
 
 function FeedbackItem({ item, handleDelete }: FeedbackItemProps) {
