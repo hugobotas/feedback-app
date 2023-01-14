@@ -27,7 +27,7 @@ function FeedbackForm() {
             <h2>How would you rate your service with us?</h2>
             {/* @TODO - rating select component */}
             <div className='input-group'>
-              <Field name='review' type='text' placeholder='Please write a review' />
+              <Field name='review' type='text' placeholder='Write a review' />
               <Button type='submit' isDisabled={!!formik.errors.review}>
                 Send
               </Button>

@@ -3,7 +3,7 @@ import FeedbackItem from './FeedbackItem';
 
 interface FeedbackListProps {
   feedback: FeedbackItemType[];
-  handleDelete: any;
+  handleDelete: (arg0: number) => void;
 }
 
 function FeedbackList({ feedback, handleDelete }: FeedbackListProps) {
