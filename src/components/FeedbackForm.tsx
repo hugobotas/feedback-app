@@ -11,7 +11,7 @@ interface FormValuesType {
 }
 
 interface FeedbackFormProps {
-  handleAdd: (arg0: { rating: number; text: string; id: string }) => void;
+  handleAdd: (review: { rating: number; text: string; id: string }) => void;
 }
 
 function FeedbackForm({ handleAdd }: FeedbackFormProps) {
@@ -21,7 +21,7 @@ function FeedbackForm({ handleAdd }: FeedbackFormProps) {
   function handleSubmit(values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) {
     const newFeedback = {
       text: values.review,
-      rating: rating,
+      rating,
       id: uuidv4(),
     };
     handleAdd(newFeedback);

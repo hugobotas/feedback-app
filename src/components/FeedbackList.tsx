@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 interface FeedbackListProps {
   feedback: FeedbackItemType[];
-  handleDelete: (arg0: string) => void;
+  handleDelete: (id: string) => void;
 }
 
 function FeedbackList({ feedback, handleDelete }: FeedbackListProps) {

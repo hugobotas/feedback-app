@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 
 interface RatingSelectProps {
-  select: (arg0: number) => void;
+  select: (rating: number) => void;
 }
 
 function RatingSelect({ select }: RatingSelectProps) {
