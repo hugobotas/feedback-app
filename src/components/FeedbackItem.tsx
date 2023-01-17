@@ -1,20 +1,25 @@
 import { FeedbackItemType } from '../data/FeedbackData';
 import Card from './shared/Card';
-import { FaTimes } from 'react-icons/all';
+import { FaEdit, FaTimes } from 'react-icons/all';
+import { useContext } from 'react';
+import FeedbackContext from './context/FeedbackContext';
 
 interface FeedbackItemProps {
   item: FeedbackItemType;
-  handleDelete: (id: string) => void;
 }
 
-function FeedbackItem({ item, handleDelete }: FeedbackItemProps) {
+function FeedbackItem({ item }: FeedbackItemProps) {
+  const { deleteFeedback, editFeedback } = useContext(FeedbackContext);
   return (
     <Card>
       <div className='num-display'>{item.rating}</div>
-      <button onClick={() => handleDelete(item.id)} className='close'>
+      <button onClick={() => deleteFeedback(item.id)} className='close'>
         <FaTimes color='purple' />
       </button>
-      <div className='text-display'>{item.text}</div>
+      <button className='edit' onClick={() => editFeedback(item)}>
+        <FaEdit color='purple' />
+      </button>
+      <div className='text-display'>{item.review}</div>
     </Card>
   );
 }

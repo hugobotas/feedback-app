@@ -2,37 +2,44 @@ import Card from './shared/Card';
 import Button from './shared/Button';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import RatingSelect from './RatingSelect';
 import { v4 as uuidv4 } from 'uuid';
+import FeedbackContext from './context/FeedbackContext';
+import feedbackData from '../data/FeedbackData';
 
 interface FormValuesType {
   review: string;
+  rating: string;
 }
 
-interface FeedbackFormProps {
-  handleAdd: (review: { rating: number; text: string; id: string }) => void;
-}
-
-function FeedbackForm({ handleAdd }: FeedbackFormProps) {
-  const initialValues: FormValuesType = { review: '' };
-  const [rating, setRating] = useState(0);
+function FeedbackForm() {
+  const { addFeedback, feedbackEdit, updateFeedback } = useContext(FeedbackContext);
+  const initialValues: FormValuesType = { review: '', rating: '1' };
 
   function handleSubmit(values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) {
     const newFeedback = {
-      text: values.review,
-      rating,
-      id: uuidv4(),
+      review: values.review,
+      rating: values.rating,
     };
-    handleAdd(newFeedback);
+    if (feedbackEdit.edit) {
+      updateFeedback(feedbackEdit.item.id, newFeedback);
+    } else {
+      addFeedback({ ...newFeedback, id: uuidv4() });
+    }
     formikHelpers.resetForm();
   }
 
   return (
     <Card>
       <Formik
+        enableReinitialize={true}
         validateOnMount={true}
-        initialValues={initialValues}
+        initialValues={
+          feedbackEdit.edit
+            ? { review: feedbackEdit.item.review, rating: feedbackEdit.item.rating }
+            : initialValues
+        }
         onSubmit={handleSubmit}
         validationSchema={Yup.object({
           review: Yup.string().min(10, 'Text must be at least 10 characters').required('Required'),
@@ -41,7 +48,7 @@ function FeedbackForm({ handleAdd }: FeedbackFormProps) {
         {(formik) => (
           <Form>
             <h2>How would you rate your service with us?</h2>
-            <RatingSelect select={(rating: number) => setRating(rating)} />
+            <RatingSelect />
             <div className='input-group'>
               <Field name='review' type='text' placeholder='Write a review' />
               <Button type='submit' isDisabled={!!formik.errors.review}>
