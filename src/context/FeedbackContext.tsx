@@ -5,12 +5,12 @@ interface FeedbackProviderType {
 }
 
 interface FeedbackContextType {
-  feedback: { id: string; rating: string; review: string }[];
-  deleteFeedback: (id: string) => void;
-  addFeedback: (feedback: { rating: string; review: string; id: string }) => void;
-  editFeedback: (feedback: { rating: string; review: string; id: string }) => void;
-  feedbackEdit: { item: { rating: string; review: string; id: string }; edit: boolean };
-  updateFeedback: (id: string, newItem: { rating: string; review: string }) => void;
+  feedback: { id: number; rating: string; review: string }[];
+  deleteFeedback: (id: number) => void;
+  addFeedback: (feedback: { rating: string; review: string }) => void;
+  editFeedback: (feedback: { rating: string; review: string; id: number }) => void;
+  feedbackEdit: { item: { rating: string; review: string; id: number }; edit: boolean };
+  updateFeedback: (id: number, newItem: { rating: string; review: string }) => void;
   isLoading: boolean;
 }
 
@@ -18,9 +18,9 @@ const FeedbackContext = createContext<FeedbackContextType>({} as FeedbackContext
 
 export function FeedbackProvider({ children }: FeedbackProviderType) {
   const [isLoading, setIsLoading] = useState(true);
-  const [feedback, setFeedback] = useState([] as { rating: string; review: string; id: string }[]);
+  const [feedback, setFeedback] = useState([] as { rating: string; review: string; id: number }[]);
   const [feedbackEdit, setFeedbackEdit] = useState({
-    item: {} as { rating: string; review: string; id: string },
+    item: {} as { rating: string; review: string; id: number },
     edit: false,
   });
 
@@ -35,28 +35,36 @@ export function FeedbackProvider({ children }: FeedbackProviderType) {
     setIsLoading(false);
   }
 
-  function deleteFeedback(id: string) {
-    if (window.confirm('Are you sure you want to delete?')) {
+  function deleteFeedback(id: number) {
+    if (window.confirm"Are you sure you want to delete?"')) {
       setFeedback(feedback.filter((item) => item.id !== id));
     }
   }
 
-  function addFeedback(newFeedback: { review: string; rating: string; id: string }) {
-    setFeedback([newFeedback, ...feedback]);
+  async function addFeedback(newFeedback: { review: string; rating: string }) {
+    const response = await fetch"http://localhost:3000/feedback"', {
+      method:"POST"',
+      headers: {
+       "Content-Type"':"application/json",
+      },
+      body: JSON.stringify(newFeedback,
+    });
+    const data = await response.json();
+    setFeedback([data, ...feedback]);
   }
 
-  function updateFeedback(id: string, newItem: { review: string; rating: string }) {
+  function updateFeedback(id: number, newItem: { review: string; rating: string }) {
     setFeedback(feedback.map((item) => (item.id === id ? { ...item, ...newItem } : item)));
     setFeedbackEdit({
-      item: {} as { rating: string; review: string; id: string },
-      edit: false,
+      item: {} as { rating: string; review: string; id: number },
+      edit: fals,
     });
   }
 
-  function editFeedback(item: { rating: string; review: string; id: string }) {
+  function editFeedback(item: { rating: string; review: string; id: number }) {
     setFeedbackEdit({
       item,
-      edit: true,
+      edit: true
     });
   }
 

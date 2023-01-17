@@ -20,7 +20,7 @@ const FeedbackData: FeedbackItemType[] = [
 ];
 
 export interface FeedbackItemType {
-  id: string;
+  id: number;
   rating: string;
   review: string;
 }
