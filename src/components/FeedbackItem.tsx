@@ -2,7 +2,7 @@ import { FeedbackItemType } from '../data/FeedbackData';
 import Card from './shared/Card';
 import { FaEdit, FaTimes } from 'react-icons/all';
 import { useContext } from 'react';
-import FeedbackContext from './context/FeedbackContext';
+import FeedbackContext from '../context/FeedbackContext';
 
 interface FeedbackItemProps {
   item: FeedbackItemType;

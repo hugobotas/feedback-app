@@ -5,8 +5,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useContext } from 'react';
 import RatingSelect from './RatingSelect';
 import { v4 as uuidv4 } from 'uuid';
-import FeedbackContext from './context/FeedbackContext';
-import feedbackData from '../data/FeedbackData';
+import FeedbackContext from '../context/FeedbackContext';
 
 interface FormValuesType {
   review: string;

@@ -1,5 +1,4 @@
-import React, { createContext, useState } from 'react';
-import feedbackData from '../../data/FeedbackData';
+import React, { createContext, useEffect, useState } from 'react';
 
 interface FeedbackProviderType {
   children: React.ReactNode;
@@ -12,16 +11,29 @@ interface FeedbackContextType {
   editFeedback: (feedback: { rating: string; review: string; id: string }) => void;
   feedbackEdit: { item: { rating: string; review: string; id: string }; edit: boolean };
   updateFeedback: (id: string, newItem: { rating: string; review: string }) => void;
+  isLoading: boolean;
 }
 
 const FeedbackContext = createContext<FeedbackContextType>({} as FeedbackContextType);
 
 export function FeedbackProvider({ children }: FeedbackProviderType) {
-  const [feedback, setFeedback] = useState(feedbackData);
+  const [isLoading, setIsLoading] = useState(true);
+  const [feedback, setFeedback] = useState([] as { rating: string; review: string; id: string }[]);
   const [feedbackEdit, setFeedbackEdit] = useState({
     item: {} as { rating: string; review: string; id: string },
     edit: false,
   });
+
+  useEffect(() => {
+    fetchFeedback().then();
+  }, []);
+
+  async function fetchFeedback() {
+    const response = await fetch('http://localhost:3000/feedback?_sort=id&_order=desc');
+    const data = await response.json();
+    setFeedback(data);
+    setIsLoading(false);
+  }
 
   function deleteFeedback(id: string) {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -57,6 +69,7 @@ export function FeedbackProvider({ children }: FeedbackProviderType) {
         editFeedback,
         feedbackEdit,
         updateFeedback,
+        isLoading,
       }}
     >
       {children}
