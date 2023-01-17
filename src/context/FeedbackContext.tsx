@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 interface FeedbackProviderType {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface FeedbackContextType {
@@ -36,18 +36,18 @@ export function FeedbackProvider({ children }: FeedbackProviderType) {
   }
 
   function deleteFeedback(id: number) {
-    if (window.confirm"Are you sure you want to delete?"')) {
+    if (window.confirm('Are you sure you want to delete?')) {
       setFeedback(feedback.filter((item) => item.id !== id));
     }
   }
 
   async function addFeedback(newFeedback: { review: string; rating: string }) {
-    const response = await fetch"http://localhost:3000/feedback"', {
-      method:"POST"',
+    const response = await fetch('http://localhost:3000/feedback', {
+      method: 'POST',
       headers: {
-       "Content-Type"':"application/json",
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newFeedback,
+      body: JSON.stringify(newFeedback),
     });
     const data = await response.json();
     setFeedback([data, ...feedback]);
@@ -57,14 +57,14 @@ export function FeedbackProvider({ children }: FeedbackProviderType) {
     setFeedback(feedback.map((item) => (item.id === id ? { ...item, ...newItem } : item)));
     setFeedbackEdit({
       item: {} as { rating: string; review: string; id: number },
-      edit: fals,
+      edit: false,
     });
   }
 
   function editFeedback(item: { rating: string; review: string; id: number }) {
     setFeedbackEdit({
       item,
-      edit: true
+      edit: true,
     });
   }
 

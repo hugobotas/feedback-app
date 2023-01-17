@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface CardProps {
   reverse?: boolean;
   children: React.ReactNode;

@@ -1,8 +1,8 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps {
   isDisabled?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   version?: 'primary' | 'secondary';
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }

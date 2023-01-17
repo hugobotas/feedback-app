@@ -2,9 +2,8 @@ import Card from './shared/Card';
 import Button from './shared/Button';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import RatingSelect from './RatingSelect';
-import { v4 as uuidv4 } from 'uuid';
 import FeedbackContext from '../context/FeedbackContext';
 
 interface FormValuesType {
@@ -14,7 +13,7 @@ interface FormValuesType {
 
 function FeedbackForm() {
   const { addFeedback, feedbackEdit, updateFeedback } = useContext(FeedbackContext);
-  const initialValues: FormValuesType = { review: '', rating: '1' };
+  const initialValues: FormValuesType = { review: '', rating: '' };
 
   function handleSubmit(values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) {
     const newFeedback = {
